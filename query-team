@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# TODO FIX: The config files need an extra space at the END
+
+# Repos to report on
+repos=()
+while IFS= read -r line; do
+  repos+=("$line")
+done < repos.txt
+
+# Users to report on
+users=()
+while IFS= read -r line; do
+  users+=("$line")
+done < users.txt
+
+for user in "${users[@]}"
+do
+    echo -------------------------------------------
+    echo $user
+
+    for repo in "${repos[@]}"
+    do
+        echo $repo
+
+        echo "----- Pull Requests"
+        git --git-dir $repo shortlog  -s -n --all --no-merges --author=$user  --since="2019-06-17" | cat
+
+        echo "----- Commits"
+        git --git-dir $repo log --all --numstat --pretty="%H" --author=$user --since="2019-06-17" | awk 'NF==3 {plus+=$1; minus+=$2} NF==1 {total++} END {printf("lines added: +%d\nlines deleted: -%d\ntotal commits: %d\n", plus, minus, total)}'
+        
+    done
+done
+
+# repo=/Users/jakobjonasson/.tempo/dolly/.git
+# author=jakobjo
+
