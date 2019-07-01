@@ -1,6 +1,6 @@
 # A simple git team reporting tools
 
-Usage:
+## Setup
 Create a file called users.txt in the root of this project and add a line for each username
 Create a file called repos.txt in the root of this project and add a line for each repository path
 
@@ -16,3 +16,7 @@ NOTE:
 Add a extra enter in the end of each of those config files
 
 This is work in progress, I might change this a lot
+
+## Running the scirpt:
+One argument is needed, since:
+./query-team 2019-06-17

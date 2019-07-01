@@ -2,6 +2,8 @@
 
 # TODO FIX: The config files need an extra space at the END
 
+since=$1
+
 # Repos to report on
 repos=()
 while IFS= read -r line; do
@@ -24,14 +26,11 @@ do
         echo $repo
 
         echo "----- Pull Requests"
-        git --git-dir $repo shortlog  -s -n --all --no-merges --author=$user  --since="2019-06-17" | cat
+        git --git-dir $repo shortlog  -s -n --all --no-merges --author=$user  --since=$since | cat
 
         echo "----- Commits"
-        git --git-dir $repo log --all --numstat --pretty="%H" --author=$user --since="2019-06-17" | awk 'NF==3 {plus+=$1; minus+=$2} NF==1 {total++} END {printf("lines added: +%d\nlines deleted: -%d\ntotal commits: %d\n", plus, minus, total)}'
+        git --git-dir $repo log --all --numstat --pretty="%H" --author=$user --since=$since | awk 'NF==3 {plus+=$1; minus+=$2} NF==1 {total++} END {printf("lines added: +%d\nlines deleted: -%d\ntotal commits: %d\n", plus, minus, total)}'
         
     done
 done
-
-# repo=/Users/jakobjonasson/.tempo/dolly/.git
-# author=jakobjo
 
